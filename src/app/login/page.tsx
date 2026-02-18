@@ -6,14 +6,18 @@ import { useRouter } from "next/navigation";
 
 
 export default function LoginPage() {
-  const handleLogin = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: "http://localhost:3000/auth/callback",
-      },
-    });
-  };
+    const loginWithGoogle = async () => {
+        const redirectUrl =
+            process.env.NEXT_PUBLIC_SITE_URL + "/auth/callback";
+
+        await supabase.auth.signInWithOAuth({
+            provider: "google",
+            options: {
+                redirectTo: redirectUrl,
+            },
+        });
+    };
+
 
 
   const router = useRouter();
