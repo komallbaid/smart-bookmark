@@ -4,35 +4,30 @@ import { supabase } from "@/lib/supabaseClient";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-
 export default function LoginPage() {
-    const loginWithGoogle = async () => {
-        const redirectUrl =
-            process.env.NEXT_PUBLIC_SITE_URL + "/auth/callback";
-
-        await supabase.auth.signInWithOAuth({
-            provider: "google",
-            options: {
-                redirectTo: redirectUrl,
-            },
-        });
-    };
-
-
-
   const router = useRouter();
 
-    useEffect(() => {
+  // Google Login
+  const loginWithGoogle = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+  };
+
+  // If already logged in → go dashboard
+  useEffect(() => {
     const checkSession = async () => {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session) {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
         router.replace("/dashboard");
-        }
+      }
     };
 
     checkSession();
-    }, []);
-
+  }, [router]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center 
@@ -53,7 +48,7 @@ export default function LoginPage() {
         <h2 className="text-xl font-semibold mb-6">Welcome 👋</h2>
 
         <button
-          onClick={handleLogin}
+          onClick={loginWithGoogle}
           className="w-full flex items-center justify-center gap-3 border rounded-lg px-4 py-3 hover:bg-gray-100 transition"
         >
           <img
