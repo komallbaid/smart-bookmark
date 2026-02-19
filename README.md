@@ -75,7 +75,6 @@ Updated the Supabase Authentication settings:
 - Configured correct redirect URL `/auth/callback`
 - Corrected Google OAuth redirect URI to point only to Supabase callback
 
----
 
 ### 2. Login Worked Locally but Failed on Vercel
 **Problem:**  
@@ -96,7 +95,6 @@ supabase.auth.exchangeCodeForSession()
 
 which creates a valid login session cookie.
 
----
 
 ### 3. Automatic Logout / Session Not Persisting
 **Problem:**  
@@ -112,7 +110,6 @@ supabase.auth.onAuthStateChange()
 ```
 to detect successful login and redirect users to the dashboard.
 
----
 
 ### 4. Realtime Updates Not Working
 **Problem:**  
@@ -124,7 +121,6 @@ The bookmarks table was not properly registered in Supabase realtime publication
 **Solution:**  
 Enabled realtime subscriptions and added the `bookmarks` table to the `supabase_realtime` publication so database updates trigger UI refresh.
 
----
 
 ### 5. Visit Tracking Did Not Update
 **Problem:**  
@@ -137,7 +133,6 @@ Opening the link immediately navigated away before the database update completed
 Intercepted the click event, updated `last_visited` in database first, then opened the website.  
 Also implemented optimistic UI update to instantly reflect changes.
 
----
 
 ### 6. Next.js Cookie Handling Error
 **Problem:**  
