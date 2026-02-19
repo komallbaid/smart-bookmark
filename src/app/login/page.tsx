@@ -17,16 +17,27 @@ export default function LoginPage() {
     });
   };
 
-  // If already logged in → go dashboard
+  // 🔥 IMPORTANT FIX — listen for auth state changes
   useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+    // Check immediately
+    supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         router.replace("/dashboard");
       }
-    };
+    });
 
-    checkSession();
+    // Listen AFTER OAuth redirect
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (session) {
+          router.replace("/dashboard");
+        }
+      }
+    );
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
   }, [router]);
 
   return (
