@@ -17,9 +17,8 @@ export default function LoginPage() {
     });
   };
 
-  // 🔥 IMPORTANT FIX — listen for auth state changes
+  // listen for auth state changes
   useEffect(() => {
-    // Check immediately
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         router.replace("/dashboard");
